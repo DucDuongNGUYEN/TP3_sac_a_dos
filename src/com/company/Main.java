@@ -10,12 +10,24 @@ public class Main {
     private final static String FILE_URL_2 = "C:\\LICENCE 2\\S4\\Algorithmique 1\\TP3\\instances\\sac2.txt";
     private final static String FILE_URL_3 = "C:\\LICENCE 2\\S4\\Algorithmique 1\\TP3\\instances\\sac3.txt";
     private final static String FILE_URL_4 = "C:\\LICENCE 2\\S4\\Algorithmique 1\\TP3\\instances\\sac4.txt";
+
+    static knapsackProblem sac = new knapsackProblem();
+    private final static int [] list = new int [sac.getCapacity(FILE_URL_1)];
+    private final static  int poidsMax = sac.maxWeight(FILE_URL_1);
+    private final static int n = sac.getCapacity(FILE_URL_1);
+    private final static int[] poids = sac.poidsItems(FILE_URL_1);
+    private final static int[] values = sac.valuesItems(FILE_URL_1);
+    private static int maxValue = 0;
+
+    /*
     private final static  int poidsMax = 2000 ;
     private final static int n = 20;
     private final static int [] list = new int [n];
     private final static int[] poids = {132, 165, 145, 198, 156, 152, 110, 144, 123, 115, 199, 134, 117, 182, 111, 154, 105, 169, 128, 156};
     private final static int[] values = {138772, 173636, 148055, 198705, 165087, 152665, 117838, 151242, 123145, 115281, 204756, 134767, 121259, 186944, 111389, 154316, 112132, 177607, 134188, 158942};
     private static int maxValue = 0;
+
+     */
 
 
     public static void main(String[] args) {
@@ -53,6 +65,7 @@ public class Main {
 
          */
     }
+    /*
     public static void item(String fileName) {
         try {
             File file = new File(fileName);
@@ -84,7 +97,8 @@ public class Main {
             e.printStackTrace();
         }
     }
-    public static void search(int i){
+    */
+    public static void search(int i){ // I represent the recursion depth
         if (i >= n){
             checkMax();
         }
@@ -119,5 +133,7 @@ public class Main {
             }
         }
     }
+
+
 
 }
