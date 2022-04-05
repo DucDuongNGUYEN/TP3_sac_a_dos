@@ -1,103 +1,21 @@
 package com.company;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class Main {
-    private final static String FILE_URL_1 = "C:\\LICENCE 2\\S4\\Algorithmique 1\\TP3\\instances\\sac1.txt";
-    private final static String FILE_URL_2 = "C:\\LICENCE 2\\S4\\Algorithmique 1\\TP3\\instances\\sac2.txt";
-    private final static String FILE_URL_3 = "C:\\LICENCE 2\\S4\\Algorithmique 1\\TP3\\instances\\sac3.txt";
-    private final static String FILE_URL_4 = "C:\\LICENCE 2\\S4\\Algorithmique 1\\TP3\\instances\\sac4.txt";
+    private final static String FILE_URL = "C:\\LICENCE 2\\S4\\Algorithmique 1\\TP3\\instances\\sac1.txt";
 
     static knapsackProblem sac = new knapsackProblem();
-    private final static int [] list = new int [sac.getCapacity(FILE_URL_1)];
-    private final static  int poidsMax = sac.maxWeight(FILE_URL_1);
-    private final static int n = sac.getCapacity(FILE_URL_1);
-    private final static int[] poids = sac.poidsItems(FILE_URL_1);
-    private final static int[] values = sac.valuesItems(FILE_URL_1);
+    private final static int [] list = new int [sac.getCapacity(FILE_URL)];
+    private final static  int poidsMax = sac.maxWeight(FILE_URL);
+    private final static int n = sac.getCapacity(FILE_URL);
+    private final static int[] poids = sac.poidsItems(FILE_URL);
+    private final static int[] values = sac.valuesItems(FILE_URL);
     private static int maxValue = 0;
-
-    /*
-    private final static  int poidsMax = 2000 ;
-    private final static int n = 20;
-    private final static int [] list = new int [n];
-    private final static int[] poids = {132, 165, 145, 198, 156, 152, 110, 144, 123, 115, 199, 134, 117, 182, 111, 154, 105, 169, 128, 156};
-    private final static int[] values = {138772, 173636, 148055, 198705, 165087, 152665, 117838, 151242, 123145, 115281, 204756, 134767, 121259, 186944, 111389, 154316, 112132, 177607, 134188, 158942};
-    private static int maxValue = 0;
-
-     */
-
 
     public static void main(String[] args) {
         search(0);
-        //item(FILE_URL_1);
-
-
-
-        /*
-        File file = new File(FILE_URL_1);
-        InputStream inputStream = new FileInputStream(file);
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        BufferedReader reader = new BufferedReader(inputStreamReader);
-        String line;
-        ArrayList<Integer> poids = new ArrayList<>();
-        ArrayList<Integer> value = new ArrayList<>();
-        ArrayList<String[]> data = new ArrayList<>();
-        while ((line = reader.readLine()) != null) {
-            String[] result = line.split(" ");
-            poids.add(Integer.valueOf(result[0]));
-            //data.add(Arrays.toString(result));
-            data.add(result);
-        }
-        int poidsMax = poids.get(0);
-        data.remove(0);
-        poids.remove(0);
-        for (String[] element : data){
-            value.add(Integer.valueOf(element[1]));
-        }
-
-        //System.out.println(data);
-        System.out.println(poidsMax);
-        System.out.println(poids);
-        System.out.println(value);
-
-         */
+        //knapsack_Solution2(poidsMax,poids,values,n);
     }
-    /*
-    public static void item(String fileName) {
-        try {
-            File file = new File(fileName);
-            InputStream inputStream = new FileInputStream(file);
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader reader = new BufferedReader(inputStreamReader);
-            String line;
-            ArrayList<Integer> poids = new ArrayList<>();
-            ArrayList<Integer> values = new ArrayList<>();
-            ArrayList<String[]> data = new ArrayList<>();
-            while ((line = reader.readLine()) != null) {
-                String[] result = line.split(" ");
-                poids.add(Integer.valueOf(result[0]));
-                //data.add(Arrays.toString(result));
-                data.add(result);
-            }
-            //int poidsMax = poids.get(0);
-            data.remove(0);
-            poids.remove(0);
-            for (String[] element : data) {
-                values.add(Integer.valueOf(element[1]));
-            }
-            int n = poids.size();
-            System.out.println(data);
-            //System.out.println(poidsMax);
-            System.out.println(poids);
-            System.out.println(values);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    */
+    //la methode Backtracking
     public static void search(int i){ // I represent the recursion depth
         if (i >= n){
             checkMax();
@@ -122,18 +40,48 @@ public class Main {
             if (value >= maxValue){
                 maxValue = value;
                 System.out.print("The maximum value is:" + maxValue +"");
-                System.out.print(", The selected item is (1 means selected, 0 means unselected): ");
+                System.out.print(", The selected item is : ");
+                System.out.print('\n');
                 for(int j=0;j<n;j++)
                 {
-                    System.out.print(list[j]);
-                    System.out.print(' ');
+                    if (list[j] == 1){
+                        System.out.print(poids[j]);
+                        System.out.print(' ');
+                        System.out.println(values[j]);
+                        System.out.print(' ');
+                    }
                 }
                 System.out.println("and the total weight : " + weight);
                 System.out.print('\n');
             }
         }
+
     }
+    ////////////////////////////////////////////////////////////////////////
+    public static int max(int a, int b)
+    {
+        return Math.max(a, b);
+    }
+    public static void knapsack_Solution2(int maxCap, int wt[],
+                        int val[], int n)
+    {
+        int i, w;
+        int K[][] = new int[n + 1][maxCap + 1];
 
-
+        // Build table K[][] in bottom up manner
+        for (i = 0; i <= n; i++)
+        {
+            for (w = 0; w <= maxCap; w++)
+            {
+                if (i == 0 || w == 0)
+                    K[i][w] = 0;
+                else if (wt[i - 1] <= w)
+                    K[i][w] = max(val[i - 1] + K[i - 1][w - wt[i - 1]], K[i - 1][w]);
+                else
+                    K[i][w] = K[i - 1][w];
+            }
+        }
+        System.out.println("The maximum value is : " + K[n][maxCap]);
+    }
 
 }
